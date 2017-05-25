@@ -4,9 +4,9 @@
     [Parameter(Mandatory=$true)]$deploymentGroupName,
     [Parameter(Mandatory=$true)]$userName,
     [Parameter(Mandatory=$true)]$patToken,
-    [Parameter(Mandatory=$false)]$deploymentAgentTags,
-    [Parameter(Mandatory=$false)]$agentInstallPath,
-    [Parameter(Mandatory=$false)]$agentName
+    [Parameter(Mandatory=$false)][String] [AllowEmptyString()]$deploymentAgentTags,
+    [Parameter(Mandatory=$false)][String] [AllowEmptyString()]$agentInstallPath,
+    [Parameter(Mandatory=$false)][String] [AllowEmptyString()]$agentName
     
 )
 
