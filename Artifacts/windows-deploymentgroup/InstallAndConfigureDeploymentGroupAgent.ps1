@@ -14,7 +14,8 @@ function Test-InstallPrerequisites
 {
     If(-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] “Administrator”))
     { 
-        Write-Error "In sufficient previliges. Run command in Administrator PowerShell Prompt"
+        Write-Host "In sufficient previliges. Run command in Administrator PowerShell Prompt"
+        Exit -1
     }
 }
 
@@ -46,7 +47,8 @@ function New-AgentPath
 	        catch {
 		        if ($Retrycount -gt 3){
                     $Stoploop = $true
-			        Write-Error "Cannot find directory: $agentInstallPath"
+			        Write-Host "Cannot find directory: $agentInstallPath"
+                    Exit -1
 		        }
 		        else {
 			        Write-Verbose "Wait for directory creation. Retrying in 30 seconds..."
@@ -180,20 +182,38 @@ function Install-DeploymentGroupAgent
 
     $agentZipFile = "agent.zip"
 
-    #Initial checks
-    Test-InstallPrerequisites
-    
-    #Create agent directory
-    $agentInstallPath = New-AgentPath $agentInstallPath
-    
-    #Download Agent
-    Download-DeploymentGroupAgent $accountUrl $userName $patToken $agentInstallPath $agentZipFile
+    try 
+    {
 
-    #Configure Agent
-    Configure-DeploymentGroupAgent $accountUrl $projectName $deploymentGroupName $patToken $agentName $agentInstallPath $deploymentAgentTags  
+        #Initial checks
+        Test-InstallPrerequisites
+    
+        #Create agent directory
+        $agentInstallPath = New-AgentPath $agentInstallPath
+    
+        #Download Agent
+        Download-DeploymentGroupAgent $accountUrl $userName $patToken $agentInstallPath $agentZipFile
 
-    #Cleanup
-    Remove-InstallFiles $agentInstallPath $agentZipFile
+        #Configure Agent
+        Configure-DeploymentGroupAgent $accountUrl $projectName $deploymentGroupName $patToken $agentName $agentInstallPath $deploymentAgentTags  
+
+        #Cleanup
+        Remove-InstallFiles $agentInstallPath $agentZipFile
+
+    } catch {
+
+        if (($null -ne $Error[0]) -and ($null -ne $Error[0].Exception))
+        {
+            if ($null -ne $Error[0].Exception.Message)
+            {
+                Write-Host $Error[0].Exception.Message
+            } else {
+                Write-Host $Error[0].Exception
+            }
+        }
+        Exit -1
+
+    }
 }
 
 Install-DeploymentGroupAgent $accountUrl $projectName $deploymentGroupName $userName $patToken $deploymentAgentTags $agentInstallPath $agentName 
