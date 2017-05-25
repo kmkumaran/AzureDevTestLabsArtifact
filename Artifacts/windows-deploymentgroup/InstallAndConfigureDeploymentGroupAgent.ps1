@@ -31,7 +31,7 @@ function New-AgentPath
 
     If (-NOT (Test-Path "$agentInstallPath"))
     {
-        New-Item -ItemType Directory -Path $agentInstallPath -Force
+        New-Item -ItemType Directory -Path $agentInstallPath -Force | Out-Null
 
         #Wait Until directory reflects in file system
         $Stoploop = $false
