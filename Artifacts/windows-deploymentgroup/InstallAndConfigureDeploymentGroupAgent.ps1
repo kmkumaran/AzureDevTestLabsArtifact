@@ -32,9 +32,32 @@ function New-AgentPath
     If (-NOT (Test-Path "$agentInstallPath"))
     {
         New-Item -ItemType Directory -Path $agentInstallPath -Force
+
+        #Wait Until directory reflects in file system
+        $Stoploop = $false
+        [int]$Retrycount = 0
+ 
+        do {
+	        try {
+		        pushd $agentInstallPath
+                popd
+		        $Stoploop = $true
+		        }
+	        catch {
+		        if ($Retrycount -gt 3){
+                    $Stoploop = $true
+			        Write-Error "Cannot find directory: $agentInstallPath"
+		        }
+		        else {
+			        Write-Verbose "Wait for directory creation. Retrying in 30 seconds..."
+			        Start-Sleep -Seconds 30
+			        $Retrycount = $Retrycount + 1
+		        }
+	        }
+        }
+        While ($Stoploop -eq $false)
     }
 
-    
     Write-Host "Created deployment agent install directory: $agentInstallPath"
     return $agentInstallPath
 }

@@ -34,17 +34,23 @@
         "deploymentAgentTags": {
             "type": "string",
             "displayName": "Deployment agent tags",
-            "description": "Optinally provide comma separated list of tags for deployment agent. Example Web, DB"
+            "description": "Optinally provide comma separated list of tags for deployment agent. Example Web, DB",
+            "allowEmpty": true,
+            "defaultValue": ""
         },
         "agentInstallPath": {
             "type": "string",
             "displayName": "Install path",
-            "description": "Optinally provide agent install path. Defaults to $env:SystemDrive\\vstsagent"
+            "description": "Optinally provide agent install path. Defaults to $env:SystemDrive\\vstsagent",
+            "allowEmpty": true,
+            "defaultValue": ""
         },
         "agentName": {
             "type": "string",
             "displayName": "Agent name",
-            "description": "Optionally provide agent name. Defaults to $env:COMPUTERNAME"
+            "description": "Optionally provide agent name. Defaults to $env:COMPUTERNAME",
+            "allowEmpty": true,
+            "defaultValue": ""
         }
     },
     "runCommand": {
