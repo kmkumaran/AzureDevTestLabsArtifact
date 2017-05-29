@@ -21,11 +21,6 @@
             "displayName": "Deployment group name",
             "description": "Name of the deployment group against which the agent has to be configured"
         },
-        "userName": {
-            "type": "string",
-            "displayName": "User name",
-            "description": "User name with permissions to configure deployment agent"
-        },
         "PersonalAccessToken": {
             "type": "securestring",
             "displayName": "Personal Access Token",
@@ -54,6 +49,6 @@
         }
     },
     "runCommand": {
-        "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass -File InstallAndConfigureDeploymentGroupAgent.ps1', ' -accountUrl ', parameters('accountUrl'), ' -projectName \"', parameters('projectName'), '\"', ' -deploymentGroupName \"', parameters('deploymentGroupName'), '\"', ' -userName ', parameters('userName'), ' -patToken ', parameters('PersonalAccessToken'), ' -deploymentAgentTags \"', parameters('deploymentAgentTags'), '\"', ' -agentInstallPath \"', parameters('agentInstallPath'), '\"', ' -agentName \"', parameters('agentName'), '\"')]"
+        "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass & ./InstallAndConfigureDeploymentGroupAgent.ps1', ' -accountUrl ', parameters('accountUrl'), ' -projectName \"', parameters('projectName'), '\"', ' -deploymentGroupName \"', parameters('deploymentGroupName'), '\"', ' -personalAccessToken ', parameters('PersonalAccessToken'), ' -deploymentAgentTags \"', parameters('deploymentAgentTags'), '\"', ' -agentInstallPath \"', parameters('agentInstallPath'), '\"', ' -agentName \"', parameters('agentName'), '\"')]"
     }
 }
