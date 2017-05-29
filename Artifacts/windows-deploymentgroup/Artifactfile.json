@@ -49,6 +49,6 @@
         }
     },
     "runCommand": {
-        "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass ./InstallAndConfigureDeploymentGroupAgent.ps1', ' -accountUrl ', parameters('accountUrl'), ' -projectName \"', parameters('projectName'), '\"', ' -deploymentGroupName \"', parameters('deploymentGroupName'), '\"', ' -personalAccessToken ', parameters('PersonalAccessToken'), ' -deploymentAgentTags \"', parameters('deploymentAgentTags'), '\"', ' -agentInstallPath \"', parameters('agentInstallPath'), '\"', ' -agentName \"', parameters('agentName'), '\"')]"
+        "commandToExecute": "[concat('powershell.exe -ExecutionPolicy bypass -Command \"& {./InstallAndConfigureDeploymentGroupAgent.ps1', ' -accountUrl ', parameters('accountUrl'), ' -projectName '', parameters('projectName'), ''', ' -deploymentGroupName \"', parameters('deploymentGroupName'), '\"', ' -personalAccessToken ', parameters('PersonalAccessToken'), ' -deploymentAgentTags \"', parameters('deploymentAgentTags'), '\"', ' -agentInstallPath \"', parameters('agentInstallPath'), '\"', ' -agentName \"', parameters('agentName'), '\"', '}\"')]"
     }
 }
