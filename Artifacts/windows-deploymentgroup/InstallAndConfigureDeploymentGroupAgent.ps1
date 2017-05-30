@@ -144,6 +144,11 @@ function Configure-DeploymentGroupAgent
     } else {
         .\config.cmd --deploymentgroup --agent $agentName --runasservice --work '_work' --url $accountUrl --projectname $projectName --deploymentgroupname $deploymentGroupName --auth PAT --token $personalAccessToken --adddeploymentgrouptags --deploymentgrouptags $deploymentAgentTags --unattended 
     }
+    if (! $?) 
+    {
+        Write-Host "Deployment agent configuration failed."
+        Exit 1
+    }
     popd
 }
 
